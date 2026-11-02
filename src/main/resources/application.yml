@@ -1,0 +1,63 @@
+# ========== 服务配置 ==========
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    session:
+      timeout: 30m
+
+spring:
+  application:
+    name: device-inspection-system
+
+  # ========== 数据源配置（MySQL 8.x） ==========
+  # 密码先用占位符，请改成自己的本机密码；也可通过环境变量 DB_PASSWORD 注入
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:device_inspection}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  # ========== FreeMarker 业务页面 ==========
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+    content-type: text/html;charset=UTF-8
+    cache: false
+    settings:
+      number_format: "0"
+      datetime_format: "yyyy-MM-dd HH:mm:ss"
+      date_format: "yyyy-MM-dd"
+
+  # ========== JSP 视图解析（登录页、错误页） ==========
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+  # ========== 文件上传大小限制 ==========
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# ========== MyBatis ==========
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.inspection.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30
+
+# ========== 自定义配置 ==========
+app:
+  # 本地文件上传目录，数据库只存文件名，通过 /files/{filename} 访问
+  upload-dir: ${UPLOAD_DIR:D:/inspection-uploads}
+
+logging:
+  level:
+    com.example.inspection: info
