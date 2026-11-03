@@ -18,17 +18,17 @@ DELETE FROM `user`;
 -- ============================================================
 -- 1. 用户表 user
 --    先补 3 个基础账号（admin/inspector/repairer），再补 5 个新账号
---    密码统一使用本文件中的 BCrypt 密文，对应明文请在应用启动时查看 Console 打印
+--    密码统一为 BCrypt 密文，对应明文 123456
 -- ============================================================
 INSERT INTO `user` (id, username, password, real_name, phone, role, avatar, status, create_time, update_time) VALUES
-(1, 'admin',     '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '系统管理员', '13800000001', 'ADMIN',     NULL, 1, '2025-09-01 09:00:00', '2025-09-01 09:00:00'),
-(2, 'inspector', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '张巡检',     '13800000002', 'INSPECTOR', NULL, 1, '2025-09-01 09:05:00', '2025-09-01 09:05:00'),
-(3, 'repairer',  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '李维修',     '13800000003', 'REPAIRER',  NULL, 1, '2025-09-01 09:10:00', '2025-09-01 09:10:00'),
-(4, 'wangxun',   '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '王芳',       '13800000004', 'INSPECTOR', NULL, 1, '2025-09-03 09:20:00', '2025-09-03 09:20:00'),
-(5, 'zhaowei',  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '赵伟',       '13800000005', 'REPAIRER',  NULL, 1, '2025-09-03 09:30:00', '2025-09-03 09:30:00'),
-(6, 'qianwei',  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '钱磊',       '13800000006', 'REPAIRER',  NULL, 1, '2025-09-04 09:00:00', '2025-09-04 09:00:00'),
-(7, 'sunwei',   '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '孙涛',       '13800000007', 'REPAIRER',  NULL, 1, '2025-09-04 09:10:00', '2025-09-04 09:10:00'),
-(8, 'chenjiu',  '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '陈旧',       '13800000008', 'INSPECTOR', NULL, 0, '2025-09-05 09:00:00', '2025-10-01 09:00:00');
+(1, 'admin',     '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '系统管理员', '13800000001', 'ADMIN',     NULL, 1, '2025-09-01 09:00:00', '2025-09-01 09:00:00'),
+(2, 'inspector', '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '张巡检',     '13800000002', 'INSPECTOR', NULL, 1, '2025-09-01 09:05:00', '2025-09-01 09:05:00'),
+(3, 'repairer',  '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '李维修',     '13800000003', 'REPAIRER',  NULL, 1, '2025-09-01 09:10:00', '2025-09-01 09:10:00'),
+(4, 'wangxun',   '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '王芳',       '13800000004', 'INSPECTOR', NULL, 1, '2025-09-03 09:20:00', '2025-09-03 09:20:00'),
+(5, 'zhaowei',  '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '赵伟',       '13800000005', 'REPAIRER',  NULL, 1, '2025-09-03 09:30:00', '2025-09-03 09:30:00'),
+(6, 'qianwei',  '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '钱磊',       '13800000006', 'REPAIRER',  NULL, 1, '2025-09-04 09:00:00', '2025-09-04 09:00:00'),
+(7, 'sunwei',   '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '孙涛',       '13800000007', 'REPAIRER',  NULL, 1, '2025-09-04 09:10:00', '2025-09-04 09:10:00'),
+(8, 'chenjiu',  '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '陈旧',       '13800000008', 'INSPECTOR', NULL, 0, '2025-09-05 09:00:00', '2025-10-01 09:00:00');
 
 -- ============================================================
 -- 2. 设备表 device（8 条，覆盖 NORMAL / REPAIRING / DISABLED）

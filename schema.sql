@@ -147,9 +147,9 @@ CREATE TABLE notification (
 
 -- 3 个测试账号
 INSERT INTO user (username, password, real_name, phone, role, status, create_time, update_time) VALUES
-('admin',     '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '系统管理员', '13800000001', 'ADMIN',     1, NOW(), NOW()),
-('inspector', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '张三',       '13800000002', 'INSPECTOR', 1, NOW(), NOW()),
-('repairer',  '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '李四',       '13800000003', 'REPAIRER',  1, NOW(), NOW());
+('admin',     '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '系统管理员', '13800000001', 'ADMIN',     1, NOW(), NOW()),
+('inspector', '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '张三',       '13800000002', 'INSPECTOR', 1, NOW(), NOW()),
+('repairer',  '$2a$10$ZKEHB5IjGNOgwieR/ExZlu8mN7kqm1fzzQpz9t3Bbt6Zl3AQmQ/bi', '李四',       '13800000003', 'REPAIRER',  1, NOW(), NOW());
 
 -- 5 台设备
 INSERT INTO device (device_no, name, category, location, responsible_user_id, status, purchase_date, maintenance_cycle_days, last_maintenance_date, remark, create_time, update_time) VALUES
