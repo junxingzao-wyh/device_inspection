@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.inspection.mapper.MaintenanceRecordMapper">
+
+    <resultMap id="recordMap" type="com.example.inspection.entity.MaintenanceRecord">
+        <id property="id" column="id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="operatorId" column="operator_id"/>
+        <result property="content" column="content"/>
+        <result property="attachmentName" column="attachment_name"/>
+        <result property="maintenanceDate" column="maintenance_date"/>
+        <result property="nextMaintenanceDate" column="next_maintenance_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="operatorName" column="operator_name"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="recordMap">
+        SELECT m.*, d.name AS device_name, d.device_no, u.real_name AS operator_name
+        FROM maintenance_record m
+        LEFT JOIN device d ON m.device_id = d.id
+        LEFT JOIN user u ON m.operator_id = u.id
+        WHERE m.id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="recordMap">
+        SELECT m.*, d.name AS device_name, d.device_no, u.real_name AS operator_name
+        FROM maintenance_record m
+        LEFT JOIN device d ON m.device_id = d.id
+        LEFT JOIN user u ON m.operator_id = u.id
+        <where>
+            <if test="deviceId != null">AND m.device_id = #{deviceId}</if>
+        </where>
+        ORDER BY m.maintenance_date DESC LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="long">
+        SELECT COUNT(*) FROM maintenance_record
+        <where>
+            <if test="deviceId != null">AND device_id = #{deviceId}</if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.example.inspection.entity.MaintenanceRecord"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO maintenance_record (device_id, operator_id, content, attachment_name,
+                                        maintenance_date, next_maintenance_date, create_time)
+        VALUES (#{deviceId}, #{operatorId}, #{content}, #{attachmentName},
+                #{maintenanceDate}, #{nextMaintenanceDate}, NOW())
+    </insert>
+
+</mapper>

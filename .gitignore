@@ -11,6 +11,7 @@ target/
 .settings/
 .project
 .classpath
+.factorypath
 
 # ===== 运行时上传目录（不提交到仓库） =====
 upload/

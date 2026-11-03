@@ -1,15 +1,18 @@
 package com.example.inspection.common;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常处理器：统一转换为 Result 返回
+ * 手动声明 Logger，避免依赖 Lombok @Slf4j
  */
-@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /** 业务异常：返回业务错误码与提示信息 */
     @ExceptionHandler(BusinessException.class)

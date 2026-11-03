@@ -1,6 +1,6 @@
 # ========== 服务配置 ==========
 server:
-  port: 8080
+  port: 8083
   servlet:
     context-path: /
     session:
@@ -34,9 +34,10 @@ spring:
       date_format: "yyyy-MM-dd"
 
   # ========== JSP 视图解析（登录页、错误页） ==========
+  # 注意：内嵌 Tomcat 下 prefix 不要以 / 开头，否则会找不到 JSP
   mvc:
     view:
-      prefix: /WEB-INF/jsp/
+      prefix: WEB-INF/jsp/
       suffix: .jsp
 
   # ========== 文件上传大小限制 ==========
@@ -60,4 +61,9 @@ app:
 
 logging:
   level:
-    com.example.inspection: info
+    # ====== 调试用：打印所有 MyBatis SQL 和参数 ======
+    com.example.inspection.mapper: debug
+    org.mybatis: debug
+    # 业务逻辑 info，不乱
+    com.example.inspection.service: info
+    com.example.inspection.controller: info

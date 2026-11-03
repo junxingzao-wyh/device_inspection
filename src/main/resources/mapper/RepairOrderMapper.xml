@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.inspection.mapper.RepairOrderMapper">
+
+    <resultMap id="orderMap" type="com.example.inspection.entity.RepairOrder">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="reporterId" column="reporter_id"/>
+        <result property="handlerId" column="handler_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="photoName" column="photo_name"/>
+        <result property="status" column="status"/>
+        <result property="handleRemark" column="handle_remark"/>
+        <result property="assignTime" column="assign_time"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="acceptTime" column="accept_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="deviceNo" column="device_no"/>
+        <result property="reporterName" column="reporter_name"/>
+        <result property="handlerName" column="handler_name"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="orderMap">
+        SELECT o.*, d.name AS device_name, d.device_no,
+               ur.real_name AS reporter_name, uh.real_name AS handler_name
+        FROM repair_order o
+        LEFT JOIN device d ON o.device_id = d.id
+        LEFT JOIN user ur ON o.reporter_id = ur.id
+        LEFT JOIN user uh ON o.handler_id = uh.id
+        WHERE o.id = #{id}
+    </select>
+
+    <select id="selectByOrderNo" resultType="com.example.inspection.entity.RepairOrder">
+        SELECT * FROM repair_order WHERE order_no = #{orderNo}
+    </select>
+
+    <select id="selectList" resultMap="orderMap">
+        SELECT o.*, d.name AS device_name, d.device_no,
+               ur.real_name AS reporter_name, uh.real_name AS handler_name
+        FROM repair_order o
+        LEFT JOIN device d ON o.device_id = d.id
+        LEFT JOIN user ur ON o.reporter_id = ur.id
+        LEFT JOIN user uh ON o.handler_id = uh.id
+        <where>
+            <if test="status != null and status != ''">AND o.status = #{status}</if>
+            <if test="deviceId != null">AND o.device_id = #{deviceId}</if>
+            <if test="keyword != null and keyword != ''">
+                AND (o.order_no LIKE CONCAT('%', #{keyword}, '%')
+                     OR d.name LIKE CONCAT('%', #{keyword}, '%')
+                     OR o.title LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY o.id DESC LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="long">
+        SELECT COUNT(*) FROM repair_order o
+        LEFT JOIN device d ON o.device_id = d.id
+        <where>
+            <if test="status != null and status != ''">AND o.status = #{status}</if>
+            <if test="deviceId != null">AND o.device_id = #{deviceId}</if>
+            <if test="keyword != null and keyword != ''">
+                AND (o.order_no LIKE CONCAT('%', #{keyword}, '%')
+                     OR d.name LIKE CONCAT('%', #{keyword}, '%')
+                     OR o.title LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaxOrderNo" resultType="string">
+        SELECT MAX(order_no) FROM repair_order WHERE order_no LIKE CONCAT('RO', DATE_FORMAT(NOW(), '%Y%m%d'), '%')
+    </select>
+
+    <insert id="insert" parameterType="com.example.inspection.entity.RepairOrder"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO repair_order (order_no, device_id, reporter_id, handler_id, title, description, photo_name,
+                                  status, handle_remark, assign_time, finish_time, accept_time, create_time, update_time)
+        VALUES (#{orderNo}, #{deviceId}, #{reporterId}, #{handlerId}, #{title}, #{description}, #{photoName},
+                #{status}, #{handleRemark}, #{assignTime}, #{finishTime}, #{acceptTime}, NOW(), NOW())
+    </insert>
+
+    <update id="updateById" parameterType="com.example.inspection.entity.RepairOrder">
+        UPDATE repair_order
+        <set>
+            <if test="handlerId != null">handler_id = #{handlerId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="handleRemark != null">handle_remark = #{handleRemark},</if>
+            <if test="assignTime != null">assign_time = #{assignTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="acceptTime != null">accept_time = #{acceptTime},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

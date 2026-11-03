@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.inspection.mapper.NotificationMapper">
+
+    <resultMap id="notifyMap" type="com.example.inspection.entity.Notification">
+        <id property="id" column="id"/>
+        <result property="receiverId" column="receiver_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="bizId" column="biz_id"/>
+        <result property="isRead" column="is_read"/>
+        <result property="createTime" column="create_time"/>
+        <result property="receiverName" column="receiver_name"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="notifyMap">
+        SELECT n.*, u.real_name AS receiver_name
+        FROM notification n LEFT JOIN user u ON n.receiver_id = u.id
+        <where>
+            <if test="receiverId != null">AND n.receiver_id = #{receiverId}</if>
+            <if test="isRead != null">AND n.is_read = #{isRead}</if>
+        </where>
+        ORDER BY n.id DESC LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectCount" resultType="long">
+        SELECT COUNT(*) FROM notification
+        <where>
+            <if test="receiverId != null">AND receiver_id = #{receiverId}</if>
+            <if test="isRead != null">AND is_read = #{isRead}</if>
+        </where>
+    </select>
+
+    <select id="countUnread" resultType="int">
+        SELECT COUNT(*) FROM notification
+        WHERE receiver_id = #{receiverId} AND is_read = 0
+    </select>
+
+    <insert id="insert" parameterType="com.example.inspection.entity.Notification"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notification (receiver_id, title, content, type, biz_id, is_read, create_time)
+        VALUES (#{receiverId}, #{title}, #{content}, #{type}, #{bizId}, 0, NOW())
+    </insert>
+
+    <update id="markReadById">
+        UPDATE notification SET is_read = 1
+        WHERE id = #{id} AND receiver_id = #{receiverId}
+    </update>
+
+    <update id="markAllRead">
+        UPDATE notification SET is_read = 1 WHERE receiver_id = #{receiverId}
+    </update>
+
+</mapper>

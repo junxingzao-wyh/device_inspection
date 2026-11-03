@@ -1,17 +1,22 @@
 package com.example.inspection.common;
 
-import lombok.Data;
-
 /**
  * 统一返回结果
  * code=200 表示成功，其余为业务或系统错误
+ * 显式 getter/setter，避免依赖 Lombok
  */
-@Data
 public class Result<T> {
 
     private Integer code;
     private String message;
     private T data;
+
+    public Integer getCode() { return code; }
+    public void setCode(Integer code) { this.code = code; }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+    public T getData() { return data; }
+    public void setData(T data) { this.data = data; }
 
     public static <T> Result<T> ok() {
         return build(200, "success", null);
