@@ -21,6 +21,9 @@ uploads/
 logs/
 *.log
 
+# ===== 本地部署文件（含数据库口令，仅本地使用，不提交） =====
+docker/
+
 # ===== 系统文件 =====
 .DS_Store
 Thumbs.db
